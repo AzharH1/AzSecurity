@@ -1,0 +1,3 @@
+FROM postgres:16.2-alpine
+ENV POSTGRES_USER=root
+ENV POSTGRES_PASSWORD=hello
