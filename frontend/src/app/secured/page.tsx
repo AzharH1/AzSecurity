@@ -1,21 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
-import validateJwt from "./validateJwt";
+import Success from "./success";
+import Failure from "../components/failure";
+import withAuth from "../components/auth/authhoc";
 
-function SecuredPage() {
-  const [hasAccess, setHasAccess] = useState<boolean | null>(null);
-  useEffect(() => {
-    (async () => {
-      setHasAccess(await validateJwt());
-    })();
-  }, []);
-  if (hasAccess === null) {
-    return <div>Loading...</div>;
-  }
-  if (!hasAccess) {
-    return <>Error 404 Could not find page</>;
-  }
-  return <>Congrats You have access the secure webpage.</>;
-}
+const SecuredSuccess = withAuth(Success, Failure);
+
+const SecuredPage = () => {
+  return (
+    <div>
+      <SecuredSuccess />
+    </div>
+  );
+};
 
 export default SecuredPage;

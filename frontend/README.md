@@ -11,3 +11,9 @@ pnpm dev
 # or
 bun dev
 ```
+
+redux,
+typescript
+next
+tailwind
+hocs

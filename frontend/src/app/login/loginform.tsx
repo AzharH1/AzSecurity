@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { errorTypes, formDataType, validateForm } from "./loginvalidations";
+import { ChangeEvent, FormEvent, useState } from "react";
+
+import { revalidateJWT } from "../components/auth/validateJwt";
+import { errorTypes, formDataType, validateForm } from "./loginValidations";
 
 function LoginForm() {
   const [formData, setFormData] = useState({
@@ -10,14 +12,16 @@ function LoginForm() {
     checkbox: false,
   });
 
-  const [errors, setErrors] = useState<errorTypes>({});
+  const [loginError, setLoginError] = useState<boolean>(false);
+
+  const [formError, setFormErrors] = useState<errorTypes>({});
 
   function isFormErrorsEmpty(formData: formDataType): boolean {
-    setErrors(validateForm(formData));
+    setFormErrors(validateForm(formData));
     return Object.keys(validateForm(formData)).length === 0;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isValid = isFormErrorsEmpty(formData);
     if (isValid) {
@@ -27,17 +31,22 @@ function LoginForm() {
         password: "",
         checkbox: false,
       });
+      try {
+        revalidateJWT(formData.email, formData.password);
+      } catch {
+        setLoginError(true);
+      }
     } else {
       console.log("Form Validation Failed");
     }
   };
 
-  const handleChanges = (e) => {
+  const handleChanges = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     setFormData({ ...formData, [name]: checked });
   };
@@ -56,7 +65,7 @@ function LoginForm() {
           onChange={handleChanges}
           value={formData.email}
         ></input>
-        <div className="error text-red-500">{errors.email}</div>
+        <div className="error text-red-500">{formError.email}</div>
         <input
           type="text"
           placeholder="Password"
@@ -65,35 +74,48 @@ function LoginForm() {
           value={formData.password}
           onChange={handleChanges}
         ></input>
-        <div className="error text-red-500">{errors.password}</div>
+        <div className="error text-red-500">{formError.password}</div>
 
-        <div className="flex items-center justify-between">
-          <div className="flex space-x-1 ">
-            <input
-              type="checkbox"
-              className="checkbox border border-gray-400 "
-              name="checkbox"
-              onChange={handleCheckboxChange}
-              checked={formData.checkbox}
-            ></input>
-            <p className="text-xs">
-              I accept the{" "}
-              <a className="text-blue-500 font-semibold" href="">
-                Terms of Use
-              </a>{" "}
-              &{" "}
-              <a className="text-blue-500 font-semibold" href="">
-                Privacy Policy
-              </a>
-            </p>
+        <div className=" flex  justify-between flex-col sm:flex-row">
+          <div className="flex flex-col justify-center">
+            <div className="flex space-x-1">
+              <input
+                type="checkbox"
+                className="checkbox border border-gray-400 "
+                name="checkbox"
+                onChange={handleCheckboxChange}
+                checked={formData.checkbox}
+              ></input>
+              <p className="text-xs">
+                I accept the{" "}
+                <a className="text-blue-500 font-semibold" href="">
+                  Terms of Use
+                </a>{" "}
+                &{" "}
+                <a className="text-blue-500 font-semibold" href="">
+                  Privacy Policy
+                </a>
+              </p>
+            </div>
+
+            {formError.checkbox && (
+              <div className="error text-red-500">{formError.checkbox}</div>
+            )}
           </div>
-          <div className="">
+
+          <div className="text-center">
             <a href="/signup" className="text-blue-500 font-semibold">
               Haven't Registered?
             </a>
           </div>
         </div>
-        <div className="error text-red-500">{errors.checkbox}</div>
+        {loginError ? (
+          <div className="text-red-500 text-center">
+            Please enter a valid username or email
+          </div>
+        ) : (
+          <></>
+        )}
         <button className="bg-cyan-300 hover:bg-cyan-200 hover:transition-opacity p-1 rounded-md">
           Sign In!
         </button>

@@ -16,10 +16,10 @@ function Header() {
             Home
           </a>
           <a
-            href="/"
+            href="/termsofuse"
             className="hover:bg-blue-700 px-3 py-2 rounded-md text-lg font-medium"
           >
-            About
+            Terms of Use
           </a>
           <a
             href="https://www.google.com"
@@ -28,10 +28,10 @@ function Header() {
             Services
           </a>
           <a
-            href="https://www.google.com"
+            href="secured"
             className="hover:bg-blue-700 px-3 py-2 rounded-md text-lg font-medium"
           >
-            Contact
+            UltraSecure Page
           </a>
         </nav>
 

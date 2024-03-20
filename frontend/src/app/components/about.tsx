@@ -1,11 +1,10 @@
-import Image from "next/image";
 import Hero from "./hero/hero";
-import FullStackSecurity from "../assets/FullStackSecurity.svg";
+
 function About() {
   return (
     <div className="text-white flex justify-center items-center pt-4 flex-col">
       <div className="text-6xl p-4">WELCOME</div>
-      <div className="w-11/12 pb-4 relative">
+      <div className="w-8/12 pb-4 relative flex justify-center items-center">
         <Hero />
       </div>
       <p className="text-lg">This is my fullstack security project</p>
@@ -23,7 +22,9 @@ function About() {
         <li className="text-lg text-gray-700 font-semibold">Docker</li>
         <li className="text-lg text-yellow-600 font-semibold">JWTs</li>
       </ul>
-      <p className="pt-4">Follow the instructions in the README then login!</p>
+      <p className="pt-4 pb-6">
+        Follow the instructions in the README then login!
+      </p>
     </div>
   );
 }

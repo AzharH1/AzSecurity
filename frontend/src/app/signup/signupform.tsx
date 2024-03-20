@@ -1,6 +1,6 @@
 "use client";
 //Add back the password checker function FOR PROD
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { validateForm, formDataType, errorTypes } from "./signupvalidation";
 import { registerUser } from "./registerUser";
 
@@ -21,7 +21,7 @@ function SignUpForm() {
     return Object.keys(validateForm(formData)).length === 0;
   }
 
-  const handleSubmit = (e: Event) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isValid = isFormErrorsEmpty(formData);
     if (isValid) {
@@ -58,29 +58,29 @@ function SignUpForm() {
         <p className="pt-2">
           Create your account. Its free and takes a minute!
         </p>
-        <div className="flex-col flex xl:flex-row xl:space-x-2 space-y-1 xl:space-y-0">
-          <div className="">
+        <div className="flex flex-col space-y-1 md:space-y-0 xl:flex-row xl:space-x-2">
+          <div className="flex flex-col">
             <input
               type="text"
               placeholder="First Name"
-              className="border border-gray-400 py-1 px-1 firstname rounded-sm"
+              className="border border-gray-400 py-1 px-1 firstname rounded-sm w-full"
               name="firstName"
               value={formData.firstName}
               onChange={(e) => handleChange(e)}
-            ></input>{" "}
+            />
             {errors.firstName && (
               <div className="error text-red-500">{errors.firstName}</div>
             )}
           </div>
-          <div className="">
+          <div className="flex flex-col">
             <input
               type="text"
               placeholder="Last Name"
-              className="border border-gray-400 py-1 px-1 lastname rounded-sm"
+              className="border border-gray-400 py-1 px-1 lastname rounded-sm w-full"
               name="lastName"
               value={formData.lastName}
               onChange={(e) => handleChange(e)}
-            ></input>{" "}
+            />
             {errors.lastName && (
               <div className="error text-red-500">{errors.lastName}</div>
             )}
@@ -119,36 +119,39 @@ function SignUpForm() {
         {errors.confirmPassword && (
           <div className="error text-red-500">{errors.confirmPassword}</div>
         )}
-        <div className="flex items-center justify-between">
-          <div className="flex space-x-1 ">
-            <input
-              type="checkbox"
-              className="checkbox border border-gray-400 "
-              name="checkbox"
-              onChange={handleCheckboxChange}
-              checked={formData.checkbox}
-            ></input>
-            <p className="text-xs">
-              I accept the{" "}
-              <a className="text-blue-500 font-semibold" href="">
-                Terms of Use
-              </a>{" "}
-              &{" "}
-              <a className="text-blue-500 font-semibold" href="">
-                Privacy Policy
-              </a>
-            </p>
+        <div className=" flex justify-between flex-col sm:flex-row">
+          <div className="flex  justify-center  flex-col">
+            <div className="flex space-x-1">
+              <input
+                type="checkbox"
+                className="checkbox border border-gray-400 "
+                name="checkbox"
+                onChange={handleCheckboxChange}
+                checked={formData.checkbox}
+              ></input>
+              <p className="text-xs">
+                I accept the{" "}
+                <a className="text-blue-500 font-semibold" href="">
+                  Terms of Use
+                </a>{" "}
+                &{" "}
+                <a className="text-blue-500 font-semibold" href="">
+                  Privacy Policy
+                </a>
+              </p>
+            </div>
+
+            {errors.checkbox && (
+              <div className="error text-red-500">{errors.checkbox}</div>
+            )}
           </div>
 
-          <div className="">
+          <div className="text-center">
             <a href="/login" className="text-blue-500 font-semibold">
               Already Registered?
             </a>
           </div>
         </div>
-        {errors.checkbox && (
-          <div className="error text-red-500">{errors.checkbox}</div>
-        )}
         <button className="bg-cyan-300 hover:bg-cyan-200 hover:transition-opacity p-1 rounded-md">
           Register Now!
         </button>

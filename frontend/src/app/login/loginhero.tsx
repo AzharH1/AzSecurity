@@ -14,7 +14,7 @@ function LoginHero() {
       )}
       {imageLoaded && (
         <div className="picture-container flex flex-col items-center justify-center relative z-10 pt-24 text-teal-300 px-2">
-          <h1 className="text-5xl">WELCOME</h1>
+          <h1 className="text-3xl sm:text-5xl">WELCOME</h1>
           <p className="text-xl text-center">
             Your just a few clicks away from greatness!
           </p>

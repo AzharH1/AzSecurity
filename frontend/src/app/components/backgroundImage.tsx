@@ -3,13 +3,15 @@ import curve from "../assets/layered-waves-haikei.svg";
 
 function BackgroundImage() {
   return (
-    <Image
-      src={curve}
-      alt={"background-image"}
-      fill={true}
-      style={{ objectFit: "cover" }}
-      className="-z-10"
-    />
+    <div className="fixed inset-0 -z-10">
+      <Image
+        src={curve}
+        alt={"background-image"}
+        fill={true}
+        style={{ objectFit: "cover" }}
+        priority={true}
+      />
+    </div>
   );
 }
 
